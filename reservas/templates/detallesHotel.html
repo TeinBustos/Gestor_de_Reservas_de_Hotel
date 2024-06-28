@@ -1,0 +1,91 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <style>
+        main {
+            padding: 20px;
+        }
+        .requerido {
+            color: rgb(255, 0, 0);
+        }
+        .hotel-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            margin: 20px;
+            background-color: #f8f9fa; /* Color de fondo para el lado izquierdo */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .hotel-details .details {
+            flex: 1;
+            padding-left: 20px; /* Ajuste de espaciado izquierdo */
+        }
+        .hotel-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .reservation-form {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 1480px) {
+            .hotel-details, .reservation-form {
+                flex-direction: column;
+                align-items: center;
+                margin: 10px;
+            }
+            .hotel-details .details {
+                padding-left: 0; /* Ajuste de espaciado izquierdo en dispositivos móviles */
+                text-align: start; /* Centrar texto en dispositivos móviles */
+            }
+        }
+    </style>
+    <main>
+        <div class="container">
+            <div class="row">
+                <!-- Lado izquierdo con detalles del hotel -->
+                <div class="col-md-6 d-flex">
+                    <div class="hotel-details">
+                        <h2>{{ hotel.nombre }}</h2>
+                        <img src="{{ hotel.imagen.url }}" alt="Hotel 1" class="hotel-image">
+                        <div class="details m-5">
+                            <p>Precio: ${{ hotel.precio }} por noche</p>
+                            <p>Dirección: {{ hotel.direccion }}</p>
+                            <p>Descripción: {{ hotel.descripcion }}</p>
+                            <p>Servicios incluidos: {{ hotel.servicios }}</p>
+                            <p>Política de Cancelación: {{ hotel.politica }}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Lado derecho con formulario de reserva -->
+                <div class="col-md-6">
+                    <div class="reservation-form">
+                        <h3>Reserva tu habitación</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form.nombre.label_tag }}
+                                {{ form.nombre }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.correo.label_tag }}
+                                {{ form.correo }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.fechaLlegada.label_tag }}
+                                {{ form.fechaLlegada }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
